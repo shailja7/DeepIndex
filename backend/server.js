@@ -13,19 +13,32 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
-const allowedOrigins = process.env.ALLOWED_ORIGINS 
-  ? process.env.ALLOWED_ORIGINS.split(',') 
-  : ['http://localhost:5173', 'http://127.0.0.1:5173', 'https://deep-index.vercel.app'];
+// Middleware
+let allowedOrigins = ['http://localhost:5173', 'http://127.0.0.1:5173', 'https://deep-index.vercel.app'];
+
+if (process.env.ALLOWED_ORIGINS) {
+  const envOrigins = process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim().replace(/\/$/, ''));
+  allowedOrigins = [...new Set([...allowedOrigins, ...envOrigins])];
+}
 
 app.use(cors({
   origin: (origin, callback) => {
+    // Check if origin is allowed (or if there's no origin, like REST tools)
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      console.warn(`[CORS] Rejected Origin: ${origin}`);
+      // Fallback for Vercel preview branches or unexpected domains during debugging
+      if (origin.endsWith('.vercel.app')) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
     }
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
 }));
 
 app.use(express.json());

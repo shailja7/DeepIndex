@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Upload, Play, CheckCircle, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api';
 
 function Dashboard({ onVideoSelect, videos, onRefresh }) {
   const [uploading, setUploading] = useState(false);

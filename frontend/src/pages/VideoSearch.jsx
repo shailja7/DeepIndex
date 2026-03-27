@@ -42,7 +42,7 @@ function VideoSearch({ video }) {
         <div className="relative rounded-3xl overflow-hidden glass neon-border aspect-video group">
           <video 
             ref={videoRef}
-            src={`http://localhost:5000/uploads/${video.filename}`} // Assuming direct serve for simplicity
+            src={`${API_BASE.replace('/api', '')}/uploads/${video.filename}`} // Dynamic serve
             controls={false}
             className="w-full h-full object-contain"
           />
