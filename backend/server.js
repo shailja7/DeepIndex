@@ -52,6 +52,15 @@ if (!fs.existsSync(uploadsDir)) {
 
 app.use('/uploads', express.static(uploadsDir));
 
+// Fallback for when Render wipes the ephemeral disk
+app.use('/uploads/:filename', (req, res) => {
+  console.log(`[Storage] File missing on disk: ${req.params.filename}. Serving fallback video.`);
+  // Redirect to a stable, beautiful, open-source video so the player doesn't crash for recruiters.
+  // Using an external URL ensures it never disappears, even across backend restarts.
+  res.redirect('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4');
+});
+
+
 // Routes
 app.use('/api', videoRoutes);
 app.use('/api/collections', collectionRoutes);

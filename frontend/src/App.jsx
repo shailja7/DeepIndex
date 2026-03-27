@@ -35,12 +35,14 @@ function App() {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [videos, setVideos] = useState([]);
   const [collections, setCollections] = useState([]);
+  const [isColdStarting, setIsColdStarting] = useState(true);
 
   const fetchVideos = async () => {
     try {
       const res = await axios.get(`${API_BASE}/videos`);
       setVideos(res.data);
     } catch (err) { console.error('Failed to fetch videos', err); }
+    finally { setIsColdStarting(false); }
   };
 
   const fetchCollections = async () => {
@@ -132,28 +134,40 @@ function App() {
 
       {/* ── Main Content ─────────────────────────────────────── */}
       <main style={{ maxWidth:'1400px', margin:'0 auto', padding:'2rem 1.5rem' }}>
-        {view === 'dashboard' && (
-          <DashboardLayout
-            onVideoSelect={handleVideoSelect}
-            videos={videos}
-            onRefresh={fetchVideos}
-          />
-        )}
-        {view === 'search' && selectedVideo && (
-          <VideoPlayer
-            video={selectedVideo}
-            onBack={handleBack}
-            collections={collections}
-            onCollectionUpdate={fetchCollections}
-          />
-        )}
-        {view === 'collections' && (
-          <CollectionsView
-            collections={collections}
-            onUpdate={fetchCollections}
-            onVideoSelect={handleVideoSelect}
-            videos={videos}
-          />
+        {isColdStarting ? (
+          <div style={{ textAlign:'center', marginTop:'10vh', color:'#7B9E72' }}>
+            <motion.div animate={{ rotate:360 }} transition={{ repeat:Infinity, duration:2, ease:'linear' }} style={{ display:'inline-block' }}>
+              <BeeSVG size={64}/>
+            </motion.div>
+            <h2 className="font-handwritten" style={{ fontSize:'2rem', marginTop:'1.5rem', color:'#3D3731' }}>Waking up the bees...</h2>
+            <p style={{ fontSize:'0.9rem', color:'#9E9590', marginTop:'0.5rem' }}>(The free-tier backend takes ~45 seconds to open its eyes from a deep sleep!)</p>
+          </div>
+        ) : (
+          <>
+            {view === 'dashboard' && (
+              <DashboardLayout
+                onVideoSelect={handleVideoSelect}
+                videos={videos}
+                onRefresh={fetchVideos}
+              />
+            )}
+            {view === 'search' && selectedVideo && (
+              <VideoPlayer
+                video={selectedVideo}
+                onBack={handleBack}
+                collections={collections}
+                onCollectionUpdate={fetchCollections}
+              />
+            )}
+            {view === 'collections' && (
+              <CollectionsView
+                collections={collections}
+                onUpdate={fetchCollections}
+                onVideoSelect={handleVideoSelect}
+                videos={videos}
+              />
+            )}
+          </>
         )}
       </main>
     </div>
