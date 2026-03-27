@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { motion } from 'framer-motion';
 import DashboardLayout from './components/DashboardLayout';
 import VideoPlayer from './components/VideoPlayer';
 import CollectionsView from './components/CollectionsView';
