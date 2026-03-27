@@ -20,10 +20,13 @@ const upload = multer({
   storage,
   limits: { fileSize: 200 * 1024 * 1024 }, // 200MB
   fileFilter: (req, file, cb) => {
-    if (file.originalname.match(/\.(mp4|mov|mk|avi)$/i) || file.mimetype.startsWith('video/')) {
+    const isVideo = file.originalname.match(/\.(mp4|mov|mkv|avi)$/i) || file.mimetype.startsWith('video/');
+    const isAudio = file.originalname.match(/\.(mp3|wav|m4a|aac)$/i) || file.mimetype.startsWith('audio/');
+    
+    if (isVideo || isAudio) {
       cb(null, true);
     } else {
-      cb(new Error('Only Video files are allowed'), false);
+      cb(new Error('Only Video and Audio files are allowed'), false);
     }
   },
 });
@@ -32,7 +35,11 @@ const upload = multer({
 // @desc    Upload a video and start processing
 router.post('/upload', upload.single('video'), async (req, res) => {
   try {
-    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+    if (!req.file) {
+      console.warn('[Upload] No file provided in request');
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+    console.log(`[Upload] Received file: ${req.file.originalname} (${req.file.size} bytes)`);
 
     const videoId = uuidv4();
     const newVideo = new Video({

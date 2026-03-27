@@ -82,8 +82,17 @@ async function processVideo(filePath, videoId) {
   }));
 
   console.log(`[Pinecone] Upserting ${records.length} record(s) via integrated embeddings...`);
-  await index.upsertRecords({ records });
-  console.log(`[Pipeline] ✅ Indexed ${records.length} record(s) for ${videoId}`);
+  try {
+    await index.upsertRecords({ records });
+    console.log(`[Pipeline] ✅ Indexed ${records.length} record(s) for ${videoId}`);
+  } catch (err) {
+    console.error(`[Pinecone] Upsert failed: ${err.message}`);
+    if (err.message.includes('not found') || err.message.includes('404')) {
+      console.warn('[Pinecone] Integrated embeddings might not be enabled for this index.');
+    }
+    throw err; // Re-throw to be caught by the router
+  }
+  
   return true;
 }
 

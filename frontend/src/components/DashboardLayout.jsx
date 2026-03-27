@@ -223,9 +223,9 @@ const DashboardLayout = ({ onVideoSelect, videos, onRefresh }) => {
               <motion.div key="empty" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}>
                 <BeeSVG size={56} />
                 <p className="font-handwritten" style={{ fontSize:'1.3rem', marginTop:'0.5rem', color:'#3D3731' }}>
-                  {isHovering ? "Drop it like it's honey 🍯" : 'Drag & drop an MP4 or click to browse'}
+                  {isHovering ? "Drop it like it's honey 🍯" : 'Drag & drop video or audio'}
                 </p>
-                <p style={{ fontSize:'0.8rem', color:'#9E9590', marginTop:'0.25rem' }}>Any size video — bees can handle it!</p>
+                <p style={{ fontSize:'0.8rem', color:'#9E9590', marginTop:'0.25rem' }}>Any size MP4, MP3, WAV — bees can handle it!</p>
               </motion.div>
             ) : (
               <motion.div key="file" initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}
@@ -255,7 +255,7 @@ const DashboardLayout = ({ onVideoSelect, videos, onRefresh }) => {
           </AnimatePresence>
         </div>
 
-        <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="video/*" style={{ display:'none' }}/>
+        <input type="file" ref={fileInputRef} onChange={handleFileChange} accept="video/*,audio/*" style={{ display:'none' }}/>
 
         {/* Bee Progress */}
         {(status === 'uploading' || status === 'indexing' || status === 'done') && (

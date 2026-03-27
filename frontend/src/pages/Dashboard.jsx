@@ -40,12 +40,12 @@ function Dashboard({ onVideoSelect, videos, onRefresh }) {
           animate={{ opacity: 1, y: 0 }}
           className="glass p-10 rounded-3xl border-neon/20 space-y-6"
         >
-          <h2 className="text-3xl font-semibold text-center mb-8">Upload Video</h2>
+          <h2 className="text-3xl font-semibold text-center mb-8">Upload Media</h2>
           
           <form onSubmit={handleUpload} className="space-y-6">
             <input 
               type="text"
-              placeholder="Video Title (Optional)"
+              placeholder="Title (Optional)"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               className="w-full glass-panel border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-neon/50"
@@ -54,14 +54,14 @@ function Dashboard({ onVideoSelect, videos, onRefresh }) {
             <div className="relative group cursor-pointer">
               <input 
                 type="file" 
-                accept="video/mp4"
+                accept="video/*,audio/*"
                 onChange={(e) => setFile(e.target.files[0])}
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
               />
               <div className="border-2 border-dashed border-white/20 group-hover:border-neon/50 rounded-2xl p-12 text-center transition-all bg-white/0 group-hover:bg-white/5">
                 <Upload className="mx-auto text-neon/60 w-12 h-12 mb-4 group-hover:scale-110 transition" />
                 <p className="text-gray-400">
-                  {file ? <span className="text-neon font-medium">{file.name}</span> : 'Drag and drop your MP4 file here'}
+                  {file ? <span className="text-neon font-medium">{file.name}</span> : 'Drag and drop video or audio here'}
                 </p>
                 <p className="text-xs text-gray-500 mt-2">Max size: 50MB</p>
               </div>
@@ -109,7 +109,7 @@ function Dashboard({ onVideoSelect, videos, onRefresh }) {
                 ) : vid.status === 'processing' ? (
                   <span className="text-blue-400 flex items-center gap-1">Analyzing content... <Loader2 className="w-3 h-3 animate-spin" /></span>
                 ) : (
-                  <span className="text-red-400">Processing failed</span>
+                  <span className="text-red-400">Processing failed. Try again?</span>
                 )}
               </div>
             </motion.div>
