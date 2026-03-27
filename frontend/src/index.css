@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Caveat:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════
+   COTTAGECORE TECH – DeepIndex Global Stylesheet
+   ═══════════════════════════════════════════════ */
+
+:root {
+  --bg-taupe: #E5DED0;
+  --grid-line: #D1C7B7;
+  --charcoal: #4A443F;
+  --ink-brown: #3D3731;
+  --warm-white: #F5F0E8;
+  --cream: #EDE7D9;
+  --accent-green: #7B9E72;   /* sage */
+  --accent-pink: #E8A598;    /* blush */
+  --accent-yellow: #F2C94C;  /* honey */
+  --accent-teal: #5C9E9B;    /* pond */
+  --washi-blue: rgba(92,158,155,0.3);
+  --washi-pink: rgba(232,165,152,0.3);
+  --washi-yellow: rgba(242,201,76,0.4);
+}
+
+* {
+  box-sizing: border-box;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'Quicksand', 'Segoe UI', sans-serif;
+  background-color: var(--bg-taupe);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 28px 28px;
+  color: var(--ink-brown);
+  min-height: 100vh;
+}
+
+/* ─── Hand-Drawn Border Utility ─────────────────────── */
+.hand-drawn {
+  border: 1.5px solid var(--charcoal);
+  border-radius: 12px;
+  box-shadow:
+    2px 2px 0 var(--charcoal),
+    -1px 1px 0 var(--charcoal);
+  position: relative;
+}
+
+.hand-drawn-sm {
+  border: 1.5px solid var(--charcoal);
+  border-radius: 8px;
+  box-shadow: 1.5px 1.5px 0 var(--charcoal);
+}
+
+/* ─── Stitched Border (for search + upload zones) ──────*/
+.stitched {
+  border: 2px dashed var(--charcoal);
+  border-radius: 14px;
+  background-color: var(--warm-white);
+  box-shadow: inset 0 1px 4px rgba(74,68,63,0.08);
+  outline: none;
+}
+
+.stitched:focus {
+  border-color: var(--accent-teal);
+  box-shadow: inset 0 1px 4px rgba(92,158,155,0.15), 0 0 0 3px var(--washi-blue);
+}
+
+/* ─── Card Sticker Hover Effect ────────────────────── */
+.sticker-card {
+  background-color: var(--warm-white);
+  border: 1.5px solid var(--charcoal);
+  border-radius: 12px;
+  box-shadow: 2px 3px 0 var(--charcoal);
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease;
+}
+
+.sticker-card:hover {
+  transform: rotate(1.5deg) translateY(-4px);
+  box-shadow: 4px 6px 0 var(--charcoal);
+}
+
+/* ─── Washi Tape Strips ─────────────────────────────── */
+.washi-blue  { background: var(--washi-blue);   height: 20px; transform: rotate(-1deg); }
+.washi-pink  { background: var(--washi-pink);   height: 20px; transform: rotate(0.5deg); }
+.washi-yellow{ background: var(--washi-yellow); height: 20px; transform: rotate(-0.5deg); }
+
+/* ─── Torn Paper Panels ─────────────────────────────── */
+.torn-paper {
+  background-color: var(--warm-white);
+  border: 1.5px solid var(--charcoal);
+  border-radius: 4px 4px 0 0;
+  position: relative;
+  padding: 1.5rem;
+  box-shadow: 2px 4px 8px rgba(74,68,63,0.15), 2px 2px 0 var(--charcoal);
+}
+
+.torn-paper::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='12'%3E%3Cpath d='M0 0 Q5 12 10 6 Q15 0 20 8 Q25 14 30 4 Q35 0 40 10 L40 0Z' fill='%23F5F0E8' stroke='%234A443F' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 40px 12px;
+}
+
+/* ─── Notebook Lines inside torn paper ─────────────── */
+.notebook-lines {
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 27px,
+    rgba(74, 68, 63, 0.12) 27px,
+    rgba(74, 68, 63, 0.12) 28px
+  );
+  line-height: 28px;
+  font-family: 'Inter', 'Quicksand', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* ─── Bee Animation ─────────────────────────────────── */
+@keyframes bee-fly {
+  0%   { transform: translateX(0) rotate(-5deg); }
+  20%  { transform: translateX(20%) rotate(5deg) translateY(-3px); }
+  40%  { transform: translateX(40%) rotate(-3deg) translateY(2px); }
+  60%  { transform: translateX(60%) rotate(4deg) translateY(-4px); }
+  80%  { transform: translateX(80%) rotate(-2deg) translateY(1px); }
+  100% { transform: translateX(calc(100% + 8px)) rotate(0deg); }
+}
+
+@keyframes wing-flap {
+  0%, 100% { transform: scaleY(1); }
+  50%       { transform: scaleY(0.6); }
+}
+
+.bee-progress {
+  position: relative;
+  height: 40px;
+  overflow: visible;
+}
+
+/* ─── Font Utilities ────────────────────────────────── */
+.font-handwritten { font-family: 'Caveat', cursive; font-size: 1.1em; }
+.font-typewriter  { font-family: 'Inter', sans-serif; font-weight: 400; }
+.font-rounded     { font-family: 'Quicksand', sans-serif; }
+.font-clean       { font-family: 'Inter', sans-serif; }
+
+/* ─── Buttons ────────────────────────────────────────── */
+.btn-cottage {
+  background-color: var(--accent-green);
+  color: var(--warm-white);
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  border: 1.5px solid var(--charcoal);
+  box-shadow: 2px 2px 0 var(--charcoal);
+  border-radius: 20px;
+  padding: 0.6rem 1.4rem;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.btn-cottage:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--charcoal);
+}
+
+.btn-cottage:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--charcoal);
+}
+
+.btn-cottage-pink {
+  background-color: var(--accent-pink);
+  color: var(--warm-white);
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  border: 1.5px solid var(--charcoal);
+  box-shadow: 2px 2px 0 var(--charcoal);
+  border-radius: 20px;
+  padding: 0.5rem 1.2rem;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.btn-cottage-pink:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 var(--charcoal);
+}
+
+/* ─── Custom Scrollbar ───────────────────────────────── */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { 
+  background: var(--charcoal); 
+  border-radius: 4px; 
+  border: 1px solid var(--bg-taupe); 
+}
+
+/* ─── Tag Chips ─────────────────────────────────────── */
+.tag-chip {
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: var(--cream);
+  border: 1.5px solid var(--charcoal);
+  border-radius: 20px;
+  padding: 2px 10px;
+  box-shadow: 1px 1px 0 var(--charcoal);
+  font-family: 'Quicksand', sans-serif;
+}
+
+/* ─── Section Header ─────────────────────────────────── */
+.section-header {
+  font-family: 'Caveat', cursive;
+  font-size: 1.6rem;
+  color: var(--ink-brown);
+  border-bottom: 2px dashed var(--charcoal);
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
